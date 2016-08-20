@@ -1,0 +1,16 @@
+<Games>
+	<Game>
+		<Name>Pokemon Go</Name>
+		<Version>2.0</Version>
+	</Game>
+	
+	<Game>
+		<Name>Need for Speed</Name>
+		<Version>Most Wanted</Version>
+	</Game>
+
+	<Game>
+		<Name>Fifa</Name>
+		<Version>2016</Version>
+	</Game>
+</Games>

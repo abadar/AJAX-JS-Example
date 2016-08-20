@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<script src="js/ajax_util.js" type="text/javascript" > </script>
+	</head>
+
+	<body>
+
+	<div> 
+
+		<select name="categories" onchange="selectCategory(this.value)">
+			<option value="">Select a value:</option>
+			<option value="GS">Games</option>
+			<option value="ET">Entertainment</option>
+			<option value="NS">News</option>
+		</select>
+
+	</div>
+
+	<div><h1>Content will change below this div</h1></div>
+
+	<div id="dynamicContent"> </div>
+
+	<div><h3>This is static content</h3></div>
+
+	<script>
+	  var element = document.getElementById("dynamicContent");
+	  
+		var requestType = "GET";
+		
+		/**
+		 * Function to handle change in dropdown
+		 * @PARAM value of dropdown
+		*/
+		function selectCategory(str) {
+		  var xhttp;
+		  var url;
+		  if (str == "") {
+			element.innerHTML = "Please select a value!";
+			return;
+		  } else if (str == "GS") {
+			url = "local_data/games.xml";
+			ajaxCall(requestType, url, showGS);
+		  } else if (str == "ET") {
+			url = "local_data/entertainment.txt";
+			ajaxCall(requestType, url, showET);
+		  } else if (str == "NS") {
+			url = "local_data/news.xml";
+			ajaxCall(requestType, url, showNS);
+		  }
+		}
+
+		/**
+		 * Function to show games data
+		 * @PARAM xhttp
+		*/
+		function showGS(xhttp) {
+			var xmlDoc = xhttp.responseXML;
+			
+			var table = "<table><tr><td>Name</td><td>Version</td></tr>";
+			
+			var game = xmlDoc.getElementsByTagName("Game");
+			
+			for (i = 0; i <game.length; i++) { 
+				table += "<tr><td>" +
+					game[i].getElementsByTagName("Name")[0].childNodes[0].nodeValue +
+				"</td><td>" +
+					game[i].getElementsByTagName("Version")[0].childNodes[0].nodeValue +
+				"</td></tr>";
+			}
+			table += "</table>";
+			
+			element.innerHTML = table;
+		}
+
+		/**
+		 * Function to show entertainment data
+		 * @PARAM xhttp
+		*/
+		function showET(xhttp) {
+			element.innerHTML = xhttp.responseText;
+		}
+
+		/**
+		 * Function to show news data
+		 * @PARAM xhttp
+		*/
+		function showNS(xhttp) {
+			var xmlDoc = xhttp.responseXML;
+			
+			var table = "<ol>";
+			
+			var game = xmlDoc.getElementsByTagName("Channel");
+			
+			for (i = 0; i <game.length; i++) { 
+				table += "<li>" +
+					game[i].getElementsByTagName("Name")[0].childNodes[0].nodeValue +
+				"</li>";
+			}
+			table += "</ol>";
+			
+			element.innerHTML = table;
+		}
+	</script>
+	</body>
+</html>
